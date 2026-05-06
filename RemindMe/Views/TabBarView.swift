@@ -2,11 +2,13 @@ import SwiftUI
 
 enum Tab: Int, CaseIterable {
     case feed
+    case dialog
     case settings
 
     var icon: String {
         switch self {
         case .feed: return "bell"
+        case .dialog: return "bubble.left"
         case .settings: return "gearshape"
         }
     }
@@ -14,6 +16,7 @@ enum Tab: Int, CaseIterable {
     var title: String {
         switch self {
         case .feed: return "提醒"
+        case .dialog: return "对话"
         case .settings: return "设置"
         }
     }
@@ -29,6 +32,8 @@ struct TabBarView: View {
                 switch selectedTab {
                 case .feed:
                     ReminderFeedView()
+                case .dialog:
+                    AIDialogView()
                 case .settings:
                     SettingsView()
                 }
