@@ -5,6 +5,9 @@ struct ReminderCardView: View {
     let onTap: () -> Void
     let onFeedback: (String) -> Void
 
+    @State private var showFeedbackToast = false
+    @State private var feedbackToastText = ""
+
     var body: some View {
         Button(action: onTap) {
             HStack(alignment: .top, spacing: 12) {
@@ -56,20 +59,53 @@ struct ReminderCardView: View {
         .buttonStyle(.plain)
         .contextMenu {
             Button {
-                onFeedback("positive")
+                handleFeedback("positive")
             } label: {
-                Label("有用 👍", systemImage: "hand.thumbsup")
+                Label("有用", systemImage: "hand.thumbsup")
             }
             Button {
-                onFeedback("neutral")
+                handleFeedback("neutral")
             } label: {
-                Label("一般 🙂", systemImage: "face.smiling")
+                Label("一般", systemImage: "hand.thumbsup")
             }
             Button {
-                onFeedback("negative")
+                handleFeedback("negative")
             } label: {
-                Label("没帮助 👎", systemImage: "hand.thumbsdown")
+                Label("没帮助", systemImage: "hand.thumbsdown")
             }
+        }
+        .overlay(alignment: .bottom) {
+            if showFeedbackToast {
+                Text(feedbackToastText)
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 6)
+                    .background(Capsule().fill(Color(.label).opacity(0.7)))
+                    .padding(.bottom, -28)
+                    .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.3), value: showFeedbackToast)
+    }
+
+    // MARK: - V1.1 快速反馈
+
+    private func handleFeedback(_ type: String) {
+        onFeedback(type)
+        feedbackToastText = feedbackToastMessage(type)
+        showFeedbackToast = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            showFeedbackToast = false
+        }
+    }
+
+    private func feedbackToastMessage(_ type: String) -> String {
+        switch type {
+        case "positive": return "收到，会多推类似的"
+        case "negative": return "收到，会减少这类推送"
+        case "neutral": return "收到"
+        default: return ""
         }
     }
 

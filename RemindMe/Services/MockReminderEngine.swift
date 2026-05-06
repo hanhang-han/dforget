@@ -64,8 +64,19 @@ final class MockReminderEngine {
 
     /// 根据当前时间段生成合适的提醒
     /// 小纸条：每周最多 1 条，不重复
+    /// V1.1: 根据用户偏好过滤不受欢迎的类别
     func generateReminder() -> (text: String, category: ReminderCategory, isSmallNote: Bool) {
         let hour = Calendar.current.component(.hour, from: .now)
+
+        // 检查推送是否暂停（信号值过低）
+        if PreferenceLearner.shared.isPushPaused {
+            // 暂停期间只生成小纸条（非打扰）
+            return (
+                text: pickUniqueSmallNote(),
+                category: .general,
+                isSmallNote: true
+            )
+        }
 
         // 小纸条逻辑：每周最多 1 条，概率约 5%
         let isSmallNote = shouldGenerateSmallNote()

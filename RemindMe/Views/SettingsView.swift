@@ -72,7 +72,38 @@ struct SettingsView: View {
                         }
                     }
                 } header: {
-                    Text("权限管理")
+                    Text("权限管理")                }
+
+                // MARK: - V1.1 信号值
+                Section {
+                    HStack {
+                        Text("推送信号")
+                        Spacer()
+                        let learner = PreferenceLearner.shared
+                        let signal = learner.signalValue
+                        Text(String(format: "%.2f", signal))
+                            .foregroundStyle(signal < 0.10 ? .red : signal < 0.30 ? .orange : .secondary)
+                    }
+
+                    HStack {
+                        Text("推送状态")
+                        Spacer()
+                        if PreferenceLearner.shared.isPushPaused {
+                            Label("已暂停", systemImage: "pause.circle.fill")
+                                .foregroundStyle(.orange)
+                                .font(.system(size: 14))
+                        } else {
+                            Label("正常", systemImage: "checkmark.circle.fill")
+                                .foregroundStyle(.green)
+                                .font(.system(size: 14))
+                        }
+                    }
+
+                    Text("信号值基于你的反馈自动调整，不需要手动设置")
+                        .font(.system(size: 12))
+                        .foregroundStyle(.secondary)
+                } header: {
+                    Text("智能推送")
                 }
 
                 // MARK: - 关于

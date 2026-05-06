@@ -109,7 +109,15 @@ final class ReminderFeedViewModel: ObservableObject {
     func setFeedback(_ item: ReminderItem, type: String) {
         item.feedbackType = type
         saveContext()
-        // TODO: AI Integration — 根据反馈类型调整未来提醒策略
+
+        // V1.1: 通过 PreferenceLearner 学习用户偏好
+        let learner = PreferenceLearner.shared
+        learner.processFeedback(type)
+        learner.recordCategoryFeedback(
+            category: item.category.displayName,
+            positive: type == "positive" || type == "thumbUp"
+        )
+        learner.recordActiveHour(Calendar.current.component(.hour, from: .now))
     }
 
     // MARK: - Private
