@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>zh_CN</string>
+	<key>CFBundleDisplayName</key>
+	<string>灵动提醒</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+
+	<!-- Live Activity 支持 -->
+	<key>NSSupportsLiveActivities</key>
+	<true/>
+
+	<!-- 通知权限描述 -->
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>灵动提醒需要通知权限来推送个性化生活提醒</string>
+
+	<!-- 日历权限 -->
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>灵动提醒需要访问你的日历，以便根据日程安排生成提醒</string>
+
+	<!-- HealthKit 权限 -->
+	<key>NSHealthShareUsageDescription</key>
+	<string>灵动提醒需要读取你的步数、运动和睡眠数据，以便生成健康相关提醒</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>灵动提醒不会写入任何健康数据</string>
+
+	<!-- 位置权限 -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>灵动提醒需要获取你的位置，以便提供离家/到家等上下文提醒</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>灵动提醒需要在后台获取位置，以便在离开家或到达公司时发送提醒</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>灵动提醒需要在后台获取位置，以便在离开家或到达公司时发送提醒</string>
+
+	<!-- 后台模式 -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>processing</string>
+	</array>
+
+	<!-- 支持 iPhone 灵动岛 -->
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>MinimumOSVersion</key>
+	<string>17.0</string>
+
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string></string>
+		<key>UIImageName</key>
+		<string></string>
+	</dict>
+
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+</dict>
+</plist>
