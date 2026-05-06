@@ -67,7 +67,7 @@ final class FamilyShareManager: ObservableObject {
             try context.save()
             members.append(member)
         } catch {
-            print("[FamilyShare] Failed to add member: \\(error)")
+            print("[FamilyShare] Failed to add member: \(error)")
         }
     }
 
@@ -85,7 +85,7 @@ final class FamilyShareManager: ObservableObject {
         do {
             try context.save()
         } catch {
-            print("[FamilyShare] Failed to send care card: \\(error)")
+            print("[FamilyShare] Failed to send care card: \(error)")
         }
 
         // TODO: 通过 iCloud CloudKit 同步到对方设备
@@ -97,7 +97,7 @@ final class FamilyShareManager: ObservableObject {
             let descriptor = FetchDescriptor<FamilyMember>()
             members = try context.fetch(descriptor)
         } catch {
-            print("[FamilyShare] Failed to load members: \\(error)")
+            print("[FamilyShare] Failed to load members: \(error)")
         }
     }
 }

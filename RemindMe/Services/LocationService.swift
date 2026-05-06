@@ -73,7 +73,7 @@ final class LocationService: NSObject, ObservableObject {
             let placemarks = try await geocoder.reverseGeocodeLocation(location)
             return placemarks.first?.name
         } catch {
-            print("[Location] Reverse geocode failed: \\(error)")
+            print("[Location] Reverse geocode failed: \(error)")
             return nil
         }
     }

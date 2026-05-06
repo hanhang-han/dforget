@@ -9,14 +9,15 @@ struct AdvancedCategoriesView: View {
     @State private var showPetSetup = false
     @State private var petProfileManager = PetProfileManager.shared
 
-    @Environment(\\SubscriptionManager.shared.currentTier) var currentTier
+    @Environment(\.dismiss) private var dismiss
+    @State private var currentTier: SubscriptionTier = SubscriptionManager.shared.currentTier
 
     var body: some View {
         NavigationStack {
             Form {
                 // MARK: - 可用类别
                 Section {
-                    ForEach(AdvancedCategory.allCases, id: \\.rawValue) { category in
+                    ForEach(AdvancedCategory.allCases, id: \.rawValue) { category in
                         HStack {
                             Image(systemName: category.iconName)
                                 .font(.system(size: 16))
@@ -67,9 +68,9 @@ struct AdvancedCategoriesView: View {
                                     .font(.system(size: 16))
                                 VStack(alignment: .leading, spacing: 2) {
                                     if let pet = petProfileManager.currentPet {
-                                        Text("\\(pet.name) (\\(pet.type.rawValue))")
+                                        Text("\(pet.name) (\(pet.type.rawValue))")
                                             .font(.system(size: 16))
-                                        Text("喂食间隔 \\(pet.feedInterval)h · 遛狗间隔 \\(pet.walkInterval)h")
+                                        Text("喂食间隔 \(pet.feedInterval)h · 遛狗间隔 \(pet.walkInterval)h")
                                             .font(.system(size: 12))
                                             .foregroundStyle(.secondary)
                                     } else {
@@ -156,7 +157,7 @@ struct PetSetupView: View {
     @State private var petType = PetProfileManager.PetProfile.PetType.dog
     @State private var feedInterval = 8.0
     @State private var walkInterval = 4.0
-    @Environment(\\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationStack {
@@ -164,7 +165,7 @@ struct PetSetupView: View {
                 Section {
                     TextField("宠物名字", text: $name)
                     Picker("宠物类型", selection: $petType) {
-                        ForEach(PetProfileManager.PetProfile.PetType.allCases, id: \\.rawValue) { type in
+                        ForEach(PetProfileManager.PetProfile.PetType.allCases, id: \.rawValue) { type in
                             Text(type.rawValue).tag(type)
                         }
                     }
@@ -174,7 +175,7 @@ struct PetSetupView: View {
                     HStack {
                         Text("喂食间隔")
                         Spacer()
-                        Text(\"\\(Int(feedInterval)) 小时\")
+                        Text("\(Int(feedInterval)) 小时")
                     }
                     Slider(value: $feedInterval, in: 4...24, step: 1)
 
@@ -182,24 +183,24 @@ struct PetSetupView: View {
                         HStack {
                             Text("遛狗间隔")
                             Spacer()
-                            Text(\"\\(Int(walkInterval)) 小时\")
+                            Text("\(Int(walkInterval)) 小时")
                         }
                         Slider(value: $walkInterval, in: 2...12, step: 1)
                     }
                 }
             }
-            .navigationTitle(\"设置宠物\")
+            .navigationTitle("设置宠物")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(\"保存\") {
+                    Button("保存") {
                         savePet()
                         dismiss()
                     }
                     .disabled(name.isEmpty)
                 }
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(\"取消\") { dismiss() }
+                    Button("取消") { dismiss() }
                 }
             }
         }
@@ -248,12 +249,12 @@ struct FamilySettingsView: View {
                 HStack {
                     Image(systemName: "plus.circle.fill")
                         .foregroundStyle(.secondary)
-                    Text(\"添加家庭成员\")
+                    Text("添加家庭成员")
                         .foregroundStyle(.secondary)
                 }
             }
         }
-        .navigationTitle(\"家庭\")
+        .navigationTitle("家庭")
         .sheet(isPresented: $showAddMember) {
             // TODO: 实现添加成员界面
         }

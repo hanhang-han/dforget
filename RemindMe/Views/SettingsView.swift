@@ -106,6 +106,32 @@ struct SettingsView: View {
                     Text("智能推送")
                 }
 
+                // MARK: - Pro 订阅
+                Section {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(SubscriptionManager.shared.currentTier == .pro ? "Pro 会员" : "升级 Pro")
+                                .font(.system(size: 16, weight: .medium))
+                            Text(SubscriptionManager.shared.currentTier == .pro ? "已解锁全部功能" : "解锁健康数据、无限提醒、高级类别")
+                                .font(.system(size: 12))
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        if SubscriptionManager.shared.currentTier == .pro {
+                            Image(systemName: "checkmark.seal.fill")
+                                .foregroundStyle(.green)
+                                .font(.system(size: 20))
+                        } else {
+                            Button("¥88/年") {
+                                Task { await SubscriptionManager.shared.purchasePro() }
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                    }
+                } header: {
+                    Text("订阅")
+                }
+
                 // MARK: - 关于
                 Section {
                     HStack {

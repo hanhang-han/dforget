@@ -108,7 +108,7 @@ struct RemindMeWidgetView: View {
                 Spacer()
 
                 if entry.todayCount > 0 {
-                    Text("今天 \\(entry.todayCount) 条")
+                    Text("今天 \(entry.todayCount) 条")
                         .font(.system(size: 11))
                         .foregroundStyle(.tertiary)
                 }
@@ -151,7 +151,7 @@ struct RemindMeWidgetView: View {
 
             Spacer()
 
-            Text("今天 \\(entry.todayCount) 条提醒")
+            Text("今天 \(entry.todayCount) 条提醒")
                 .font(.system(size: 11))
                 .foregroundStyle(.tertiary)
         }

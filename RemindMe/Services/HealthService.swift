@@ -144,7 +144,7 @@ final class HealthService: ObservableObject {
         // 步数
         let hour = Calendar.current.component(.hour, from: .now)
         if hour >= 18 && todaySteps < 3000 {
-            reminders.append("今天才走了 \\(todaySteps) 步，饭后出去走走？")
+            reminders.append("今天才走了 \(todaySteps) 步，饭后出去走走？")
         } else if hour >= 14 && todaySteps < 2000 {
             reminders.append("今天活动量有点少，起身活动一下。")
         }
@@ -156,9 +156,9 @@ final class HealthService: ObservableObject {
 
         // 睡眠
         if hour >= 7 && hour <= 10 && lastNightSleep > 0 && lastNightSleep < 6 {
-            reminders.append("昨晚只睡了 \\(String(format: \"%.1f\", lastNightSleep)) 小时，今晚早点睡。")
+            reminders.append("昨晚只睡了 \(String(format: \"%.1f\", lastNightSleep)) 小时，今晚早点睡。")
         } else if hour >= 7 && hour <= 10 && lastNightSleep > 0 && lastNightSleep > 9 {
-            reminders.append("昨晚睡了 \\(String(format: \"%.1f\", lastNightSleep)) 小时，睡眠充足。")
+            reminders.append("昨晚睡了 \(String(format: \"%.1f\", lastNightSleep)) 小时，睡眠充足。")
         }
 
         return reminders

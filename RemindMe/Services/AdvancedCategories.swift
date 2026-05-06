@@ -42,10 +42,10 @@ enum AdvancedCategory: String, CaseIterable, Codable {
             ]
         case .pet:
             return [
-                "该给 \\(PetProfileManager.shared.currentPet?.name ?? \"毛孩子\") 喂食了",
-                "今天天气好，带 \\(PetProfileManager.shared.currentPet?.name ?? \"它\") 出去走走",
+                "该给 \(PetProfileManager.shared.currentPet?.name ?? \"毛孩子\") 喂食了",
+                "今天天气好，带 \(PetProfileManager.shared.currentPet?.name ?? \"它\") 出去走走",
                 "距离上次驱虫已经 30 天了，该安排了",
-                "记得给 \\(PetProfileManager.shared.currentPet?.name ?? \"它\") 补充饮水",
+                "记得给 \(PetProfileManager.shared.currentPet?.name ?? \"它\") 补充饮水",
             ]
         case .finance:
             return [
@@ -64,7 +64,7 @@ enum AdvancedCategory: String, CaseIterable, Codable {
         case .social:
             return [
                 "今天是朋友的生日，发个祝福",
-                "好久没联系 \\(SocialReminderEngine.randomContact()) 了，聊聊",
+                "好久没联系 \(SocialReminderEngine.randomContact()) 了，聊聊",
                 "上次的聚会照片整理了吗？",
                 "周末约朋友出来聚聚？",
             ]
@@ -88,7 +88,7 @@ final class PetProfileManager: ObservableObject {
         var birthday: Date?
     }
 
-    enum PetType: String, Codable {
+    enum PetType: String, Codable, CaseIterable {
         case dog = "狗"
         case cat = "猫"
         case other = "其他"
@@ -119,28 +119,28 @@ final class PetProfileManager: ObservableObject {
         if let lastFed = pet.lastFed {
             let hours = Calendar.current.dateComponents([.hour], from: lastFed, to: Date()).hour ?? 0
             if hours >= pet.feedInterval {
-                reminders.append("该给 \\(pet.name) 喂食了")
+                reminders.append("该给 \(pet.name) 喂食了")
             }
         }
 
         if let lastWalked = pet.lastWalked, pet.type == .dog {
             let hours = Calendar.current.dateComponents([.hour], from: lastWalked, to: Date()).hour ?? 0
             if hours >= pet.walkInterval {
-                reminders.append("该带 \\(pet.name) 出去遛遛了")
+                reminders.append("该带 \(pet.name) 出去遛遛了")
             }
         }
 
         if let lastDeworming = pet.lastDeworming {
             let days = Calendar.current.dateComponents([.day], from: lastDeworming, to: Date()).day ?? 0
             if days >= 30 {
-                reminders.append("\\(pet.name) 距离上次驱虫已经 \\(days) 天了")
+                reminders.append("\(pet.name) 距离上次驱虫已经 \(days) 天了")
             }
         }
 
         if let birthday = pet.birthday {
             let components = Calendar.current.dateComponents([.month, .day], from: birthday, to: Date())
             if components.month == 0 && components.day == 0 {
-                reminders.append("今天是 \\(pet.name) 的生日！")
+                reminders.append("今天是 \(pet.name) 的生日！")
             }
         }
 

@@ -97,7 +97,7 @@ final class AIDialogService: ObservableObject {
         updated.pushFrequency = newHours
         updated.save()
 
-        return "好的，推送频率已从每 \\(currentHours) 小时调整为每 \\(newHours) 小时。如果你觉得还是太多，可以再说一次。"
+        return "好的，推送频率已从每 \(currentHours) 小时调整为每 \(newHours) 小时。如果你觉得还是太多，可以再说一次。"
     }
 
     private func handleIncreaseFrequency() -> String {
@@ -109,7 +109,7 @@ final class AIDialogService: ObservableObject {
         updated.pushFrequency = newHours
         updated.save()
 
-        return "好的，推送频率已从每 \\(currentHours) 小时调整为每 \\(newHours) 小时。"
+        return "好的，推送频率已从每 \(currentHours) 小时调整为每 \(newHours) 小时。"
     }
 
     private func handleCategoryToggle(_ category: String, enable: Bool) -> String {
@@ -117,7 +117,8 @@ final class AIDialogService: ObservableObject {
         // TODO: 更新类别权重
         PreferenceLearner.shared.recordCategoryFeedback(category: category, positive: enable)
 
-        return "好的，会\\(action)\\(category)类提醒的推送。\\(enable ? \"有好的天气/日历提醒时会优先推送。\" : \"会大幅减少此类推送。\")"
+        let detail = enable ? "有好的天气/日历提醒时会优先推送。" : "会大幅减少此类推送。"
+        return "好的，会\(action)\(category)类提醒的推送。\(detail)"
     }
 
     private func handleHealthRequest() -> String {
@@ -133,7 +134,7 @@ final class AIDialogService: ObservableObject {
     }
 
     private func handleQuietTime() -> String {
-        return "你可以在设置页面调整安静时段。目前安静时段是 \\(UserPreferences.load().quietTimeStart):00 - \\(UserPreferences.load().quietTimeEnd):00。"
+        return "你可以在设置页面调整安静时段。目前安静时段是 \(UserPreferences.load().quietTimeStart):00 - \(UserPreferences.load().quietTimeEnd):00。"
     }
 
     // MARK: - 清除

@@ -90,11 +90,11 @@ final class MonthlyReportGenerator {
         }
 
         if positiveRate > 0.7 {
-            return "这个月收到了 \\(total) 条提醒，其中 \\(Int(positiveRate * 100))% 对你有帮助。看起来提醒正在变得越来越懂你。"
+            return "这个月收到了 \(total) 条提醒，其中 \(Int(positiveRate * 100))% 对你有帮助。看起来提醒正在变得越来越懂你。"
         } else if positiveRate > 0.4 {
-            return "这个月收到了 \\(total) 条提醒，\\(Int(positiveRate * 100))% 觉得有用。我们会继续优化推送策略。"
+            return "这个月收到了 \(total) 条提醒，\(Int(positiveRate * 100))% 觉得有用。我们会继续优化推送策略。"
         } else {
-            return "这个月收到了 \\(total) 条提醒，反馈不多。你可以多给反馈帮助我们更懂你。"
+            return "这个月收到了 \(total) 条提醒，反馈不多。你可以多给反馈帮助我们更懂你。"
         }
     }
 
