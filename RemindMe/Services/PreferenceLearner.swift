@@ -12,7 +12,7 @@ final class PreferenceLearner {
     // MARK: - 信号值
 
     /// 信号值范围 -1.0 到 +1.0
-    private var signalValue: Double {
+    var signalValue: Double {
         get { defaults.double(forKey: "signal_value") }
         set { defaults.set(newValue, forKey: "signal_value") }
     }
@@ -94,7 +94,7 @@ final class PreferenceLearner {
     /// 获取类别偏好（得分从高到低排序）
     func getSortedCategories() -> [(category: String, score: Double)] {
         let allCategories = ["weather", "calendar", "time", "health", "general"]
-        var scored: [(String, Double)] = []
+        var scored: [(category: String, score: Double)] = []
 
         for cat in allCategories {
             let score = defaults.double(forKey: "category_score_\(cat)")

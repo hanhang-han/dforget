@@ -5,6 +5,7 @@ import Foundation
 /// V2.1 使用伪代码模拟，V3.0 接入真实 LLM
 /// TODO: AI Integration — 接入 DeepSeek / GLM 对话接口
 
+@MainActor
 final class AIDialogService: ObservableObject {
     static let shared = AIDialogService()
 

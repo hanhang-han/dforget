@@ -42,10 +42,10 @@ enum AdvancedCategory: String, CaseIterable, Codable {
             ]
         case .pet:
             return [
-                "该给 \(PetProfileManager.shared.currentPet?.name ?? \"毛孩子\") 喂食了",
-                "今天天气好，带 \(PetProfileManager.shared.currentPet?.name ?? \"它\") 出去走走",
+                #"该给 \#(PetProfileManager.shared.currentPet?.name ?? "毛孩子") 喂食了"#,
+                #"今天天气好，带 \#(PetProfileManager.shared.currentPet?.name ?? "它") 出去走走"#,
                 "距离上次驱虫已经 30 天了，该安排了",
-                "记得给 \(PetProfileManager.shared.currentPet?.name ?? \"它\") 补充饮水",
+                #"记得给 \#(PetProfileManager.shared.currentPet?.name ?? "它") 补充饮水"#,
             ]
         case .finance:
             return [

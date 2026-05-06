@@ -5,7 +5,7 @@ import SwiftUI
 
 struct AdvancedCategoriesView: View {
     @State private var petName = ""
-    @State private var petType = PetProfileManager.PetProfile.PetType.dog
+    @State private var petType = PetProfileManager.PetType.dog
     @State private var showPetSetup = false
     @State private var petProfileManager = PetProfileManager.shared
 
@@ -154,7 +154,7 @@ struct AdvancedCategoriesView: View {
 
 struct PetSetupView: View {
     @State private var name = ""
-    @State private var petType = PetProfileManager.PetProfile.PetType.dog
+    @State private var petType = PetProfileManager.PetType.dog
     @State private var feedInterval = 8.0
     @State private var walkInterval = 4.0
     @Environment(\.dismiss) private var dismiss
@@ -165,7 +165,7 @@ struct PetSetupView: View {
                 Section {
                     TextField("宠物名字", text: $name)
                     Picker("宠物类型", selection: $petType) {
-                        ForEach(PetProfileManager.PetProfile.PetType.allCases, id: \.rawValue) { type in
+                        ForEach(PetProfileManager.PetType.allCases, id: \.rawValue) { type in
                             Text(type.rawValue).tag(type)
                         }
                     }
