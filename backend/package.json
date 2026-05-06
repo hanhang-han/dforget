@@ -1,0 +1,17 @@
+{
+  "name": "remindme-backend",
+  "version": "1.0.0",
+  "description": "灵动提醒后端 - 腾讯云 SCF Serverless",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "deploy": "node scripts/deploy.js",
+    "test": "node --test src/**/*.test.js"
+  },
+  "dependencies": {
+    "fastify": "^5.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}
