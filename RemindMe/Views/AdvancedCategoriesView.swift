@@ -1,7 +1,5 @@
+// V2.0 — Quiet Luxury 高级类别设置页面
 import SwiftUI
-
-/// V3.0: 高级类别设置页面
-/// Pro 用户可启用/配置家庭、宠物、财务等类别
 
 struct AdvancedCategoriesView: View {
     @State private var petName = ""
@@ -22,28 +20,29 @@ struct AdvancedCategoriesView: View {
                             Image(systemName: category.iconName)
                                 .font(.system(size: 16))
                                 .frame(width: 28)
-                                .foregroundStyle(Color(.label))
+                                .foregroundStyle(QLDesign.Color.primaryText)
 
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(category.rawValue)
-                                    .font(.system(size: 16))
+                                    .font(QLDesign.Font.body(16))
+                                    .foregroundStyle(QLDesign.Color.primaryText)
                                 Text(category.description)
-                                    .font(.system(size: 12))
-                                    .foregroundStyle(.secondary)
+                                    .font(QLDesign.Font.body(12))
+                                    .foregroundStyle(QLDesign.Color.secondaryText)
                             }
 
                             Spacer()
 
                             if currentTier == .pro {
                                 Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
+                                    .foregroundStyle(QLDesign.Color.secondaryText)
                             } else {
                                 Text("PRO")
                                     .font(.system(size: 10, weight: .bold))
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(SwiftUI.Color.black)
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2)
-                                    .background(Color(.label))
+                                    .background(SwiftUI.Color.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 4))
                             }
                         }
@@ -66,24 +65,27 @@ struct AdvancedCategoriesView: View {
                             HStack {
                                 Image(systemName: "pawprint.fill")
                                     .font(.system(size: 16))
+                                    .foregroundStyle(QLDesign.Color.primaryText)
                                 VStack(alignment: .leading, spacing: 2) {
                                     if let pet = petProfileManager.currentPet {
                                         Text("\(pet.name) (\(pet.type.rawValue))")
-                                            .font(.system(size: 16))
+                                            .font(QLDesign.Font.body(16))
+                                            .foregroundStyle(QLDesign.Color.primaryText)
                                         Text("喂食间隔 \(pet.feedInterval)h · 遛狗间隔 \(pet.walkInterval)h")
-                                            .font(.system(size: 12))
-                                            .foregroundStyle(.secondary)
+                                            .font(QLDesign.Font.body(12))
+                                            .foregroundStyle(QLDesign.Color.secondaryText)
                                     } else {
                                         Text("设置宠物信息")
-                                            .font(.system(size: 16))
+                                            .font(QLDesign.Font.body(16))
+                                            .foregroundStyle(QLDesign.Color.primaryText)
                                         Text("获取喂食、遛狗等提醒")
-                                            .font(.system(size: 12))
-                                            .foregroundStyle(.secondary)
+                                            .font(QLDesign.Font.body(12))
+                                            .foregroundStyle(QLDesign.Color.secondaryText)
                                     }
                                 }
                                 Spacer()
                                 Image(systemName: "chevron.right")
-                                    .foregroundStyle(.tertiary)
+                                    .foregroundStyle(QLDesign.Color.labelText)
                             }
                         }
                         .buttonStyle(.plain)
@@ -97,22 +99,25 @@ struct AdvancedCategoriesView: View {
                     Section {
                         HStack {
                             Text("位置感知")
+                                .foregroundStyle(QLDesign.Color.primaryText)
                             Spacer()
                             Toggle("", isOn: .constant(false))
                         }
 
                         HStack {
                             Text("家的位置")
+                                .foregroundStyle(QLDesign.Color.primaryText)
                             Spacer()
                             Text("未设置")
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(QLDesign.Color.secondaryText)
                         }
 
                         HStack {
                             Text("公司位置")
+                                .foregroundStyle(QLDesign.Color.primaryText)
                             Spacer()
                             Text("未设置")
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(QLDesign.Color.secondaryText)
                         }
                     } header: {
                         Text("位置感知")
@@ -130,19 +135,24 @@ struct AdvancedCategoriesView: View {
                             HStack {
                                 Image(systemName: "person.2.fill")
                                     .font(.system(size: 16))
+                                    .foregroundStyle(QLDesign.Color.primaryText)
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text("家庭共享")
-                                        .font(.system(size: 16))
+                                        .font(QLDesign.Font.body(16))
+                                        .foregroundStyle(QLDesign.Color.primaryText)
                                     Text("与家人共享提醒和关怀卡片")
-                                        .font(.system(size: 12))
-                                        .foregroundStyle(.secondary)
+                                        .font(QLDesign.Font.body(12))
+                                        .foregroundStyle(QLDesign.Color.secondaryText)
                                 }
                             }
                         }
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .tint(.white)
             .navigationTitle("高级功能")
+            .toolbarColorScheme(.dark, for: .navigationBar)
             .sheet(isPresented: $showPetSetup) {
                 PetSetupView()
             }
@@ -174,33 +184,45 @@ struct PetSetupView: View {
                 Section {
                     HStack {
                         Text("喂食间隔")
+                            .foregroundStyle(QLDesign.Color.primaryText)
                         Spacer()
                         Text("\(Int(feedInterval)) 小时")
+                            .foregroundStyle(QLDesign.Color.secondaryText)
                     }
                     Slider(value: $feedInterval, in: 4...24, step: 1)
+                        .tint(.white)
 
                     if petType == .dog {
                         HStack {
                             Text("遛狗间隔")
+                                .foregroundStyle(QLDesign.Color.primaryText)
                             Spacer()
                             Text("\(Int(walkInterval)) 小时")
+                                .foregroundStyle(QLDesign.Color.secondaryText)
                         }
                         Slider(value: $walkInterval, in: 2...12, step: 1)
+                            .tint(.white)
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
             .navigationTitle("设置宠物")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("保存") {
                         savePet()
                         dismiss()
                     }
+                    .foregroundStyle(.white)
                     .disabled(name.isEmpty)
                 }
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("取消") { dismiss() }
+                    Button("取消") {
+                        dismiss()
+                    }
+                    .foregroundStyle(.white)
                 }
             }
         }
@@ -227,17 +249,19 @@ struct FamilySettingsView: View {
             ForEach(members) { member in
                 HStack {
                     Circle()
-                        .fill(Color(.systemGray4))
+                        .fill(QLDesign.Color.surface)
+                        .overlay(Circle().stroke(QLDesign.Color.border, lineWidth: 0.5))
                         .frame(width: 36, height: 36)
                         .overlay(Text(String(member.name.prefix(1))))
-                            .foregroundStyle(.white)
+                        .foregroundStyle(QLDesign.Color.primaryText)
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(member.name)
-                            .font(.system(size: 15))
+                            .font(QLDesign.Font.body(15))
+                            .foregroundStyle(QLDesign.Color.primaryText)
                         Text(member.relation)
-                            .font(.system(size: 12))
-                            .foregroundStyle(.secondary)
+                            .font(QLDesign.Font.body(12))
+                            .foregroundStyle(QLDesign.Color.secondaryText)
                     }
                 }
                 .padding(.vertical, 4)
@@ -248,13 +272,15 @@ struct FamilySettingsView: View {
             } label: {
                 HStack {
                     Image(systemName: "plus.circle.fill")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(QLDesign.Color.secondaryText)
                     Text("添加家庭成员")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(QLDesign.Color.secondaryText)
                 }
             }
         }
+        .scrollContentBackground(.hidden)
         .navigationTitle("家庭")
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .sheet(isPresented: $showAddMember) {
             // TODO: 实现添加成员界面
         }

@@ -1,14 +1,13 @@
 import SwiftUI
 
+// V2.0 — Quiet Luxury Tab Bar
 enum Tab: Int, CaseIterable {
     case feed
-    case dialog
     case settings
 
     var icon: String {
         switch self {
         case .feed: return "bell"
-        case .dialog: return "bubble.left"
         case .settings: return "gearshape"
         }
     }
@@ -16,7 +15,6 @@ enum Tab: Int, CaseIterable {
     var title: String {
         switch self {
         case .feed: return "提醒"
-        case .dialog: return "对话"
         case .settings: return "设置"
         }
     }
@@ -32,8 +30,6 @@ struct TabBarView: View {
                 switch selectedTab {
                 case .feed:
                     ReminderFeedView()
-                case .dialog:
-                    AIDialogView()
                 case .settings:
                     SettingsView()
                 }
@@ -49,12 +45,12 @@ struct TabBarView: View {
                         }
                     } label: {
                         VStack(spacing: 4) {
-                            Image(systemName: selectedTab == tab ? tab.icon : tab.icon)
+                            Image(systemName: tab.icon)
                                 .font(.system(size: 22))
-                                .foregroundStyle(selectedTab == tab ? Color(.label) : .secondary)
+                                .foregroundStyle(selectedTab == tab ? QLDesign.Color.primaryText : QLDesign.Color.secondaryText)
                             Text(tab.title)
                                 .font(.system(size: 10, weight: selectedTab == tab ? .medium : .regular))
-                                .foregroundStyle(selectedTab == tab ? Color(.label) : .secondary)
+                                .foregroundStyle(selectedTab == tab ? QLDesign.Color.primaryText : QLDesign.Color.secondaryText)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 8)
@@ -68,13 +64,13 @@ struct TabBarView: View {
             .padding(.bottom, 4)
             .background(
                 Rectangle()
-                    .fill(.ultraThinMaterial)
+                    .fill(QLDesign.Color.background)
                     .ignoresSafeArea(edges: .bottom)
             )
             .overlay(
                 Rectangle()
-                    .frame(height: 0.5)
-                    .foregroundStyle(Color(.systemGray5)),
+                    .fill(QLDesign.Color.border)
+                    .frame(height: 0.5),
                 alignment: .top
             )
         }

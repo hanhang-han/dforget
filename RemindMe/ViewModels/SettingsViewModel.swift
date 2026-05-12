@@ -1,3 +1,4 @@
+// V1.1 — 设置 ViewModel（新增每日上限 + 时段 + 音效）
 import Foundation
 import SwiftUI
 
@@ -10,6 +11,11 @@ final class SettingsViewModel: ObservableObject {
     @Published var calendarEnabled: Bool
     @Published var notificationAuthorized: Bool
     @Published var calendarAuthorized: Bool
+
+    // V1.1 新增
+    @Published var dailyLimit: Int
+    @Published var timeSlotToggles: UserPreferences.TimeSlotToggles
+    @Published var soundType: UserPreferences.SoundType
 
     private let notificationService = NotificationService.shared
     private let calendarService = CalendarService.shared
@@ -29,6 +35,11 @@ final class SettingsViewModel: ObservableObject {
 
         self.notificationAuthorized = notificationService.isAuthorized
         self.calendarAuthorized = calendarService.isAuthorized
+
+        // V1.1
+        self.dailyLimit = prefs.dailyLimit
+        self.timeSlotToggles = prefs.timeSlotToggles
+        self.soundType = prefs.soundType
     }
 
     func save() {
@@ -41,6 +52,9 @@ final class SettingsViewModel: ObservableObject {
         prefs.quietTimeEnd = formatter.string(from: quietTimeEnd)
         prefs.weatherEnabled = weatherEnabled
         prefs.calendarEnabled = calendarEnabled
+        prefs.dailyLimit = dailyLimit
+        prefs.timeSlotToggles = timeSlotToggles
+        prefs.soundType = soundType
         prefs.save()
     }
 

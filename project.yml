@@ -20,6 +20,7 @@ targets:
           - "Widget/**"
           - "Activities/RemindMeActivity.swift"
       - path: RemindMe/Activities/RemindMeAttributes.swift
+      - path: RemindMe/Content
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.remindme.app
@@ -40,6 +41,8 @@ targets:
     sources:
       - path: RemindMe/Widget
       - path: RemindMe/Activities
+      - path: RemindMe/Design/DesignTokens.swift
+      - path: RemindMe/Services/SharedDataStore.swift
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.remindme.app.widget

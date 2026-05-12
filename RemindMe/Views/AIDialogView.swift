@@ -1,7 +1,5 @@
+// V2.0 — Quiet Luxury AI 对话页面
 import SwiftUI
-
-/// V2.1: AI 对话页面
-/// 用户通过自然语言调整偏好
 
 struct AIDialogView: View {
     @StateObject private var dialogService = AIDialogService.shared
@@ -22,9 +20,10 @@ struct AIDialogView: View {
                             if dialogService.isTyping {
                                 HStack {
                                     Text("正在思考...")
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(.secondary)
+                                        .font(QLDesign.Font.body(14))
+                                        .foregroundStyle(QLDesign.Color.secondaryText)
                                     ProgressView()
+                                        .tint(.white)
                                         .scaleEffect(0.7)
                                 }
                                 .padding(.horizontal, 16)
@@ -42,30 +41,38 @@ struct AIDialogView: View {
                 }
 
                 // 输入框
-                Divider()
+                Rectangle()
+                    .fill(QLDesign.Color.border)
+                    .frame(height: 0.5)
 
                 HStack(spacing: 12) {
                     TextField("说点什么来调整提醒...", text: $inputText)
                         .textFieldStyle(.plain)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
-                        .background(Color(.systemGray6))
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .background(QLDesign.Color.surface)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                .stroke(QLDesign.Color.border, lineWidth: 0.5)
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                         .onSubmit { sendMessage() }
 
                     Button(action: sendMessage) {
                         Image(systemName: "arrow.up.circle.fill")
                             .font(.system(size: 28))
-                            .foregroundStyle(inputText.isEmpty ? .gray : Color(.label))
+                            .foregroundStyle(inputText.isEmpty ? QLDesign.Color.secondaryText : QLDesign.Color.primaryText)
                     }
                     .disabled(inputText.isEmpty || dialogService.isTyping)
                     .padding(.trailing, 12)
                 }
                 .padding(.vertical, 8)
-                .background(Color(.systemBackground))
+                .background(QLDesign.Color.background)
             }
+            .background(QLDesign.Color.background)
             .navigationTitle("对话")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarColorScheme(.dark, for: .navigationBar)
         }
     }
 
@@ -89,46 +96,35 @@ struct MessageBubble: View {
             if message.role == .assistant {
                 Image(systemName: "bell.and.waves.left.and.right")
                     .font(.system(size: 14))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(QLDesign.Color.secondaryText)
                     .frame(width: 28, height: 28)
-                    .background(Color(.systemGray6))
+                    .background(QLDesign.Color.surface)
+                    .overlay(Circle().stroke(QLDesign.Color.border, lineWidth: 0.5))
                     .clipShape(Circle())
             }
 
             VStack(alignment: message.role == .user ? .trailing : .leading, spacing: 4) {
                 Text(message.text)
-                    .font(.system(size: 15))
-                    .foregroundStyle(message.role == .user ? .white : Color(.label))
+                    .font(QLDesign.Font.body(15))
+                    .foregroundStyle(.white)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 10)
                     .background(
-                        (message.role == .user ? Color(.label) : Color(.systemGray6))
-                            .clipShape(RoundedRectangle(cornerRadius: 16, corners: message.role == .user ? [.topLeft, .topRight, .bottomLeft] : [.topLeft, .topRight, .bottomRight]))
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(message.role == .user ? SwiftUI.Color.white.opacity(0.15) : QLDesign.Color.surface)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .stroke(QLDesign.Color.border, lineWidth: 0.5)
                     )
 
                 Text(message.timestamp, style: .time)
-                    .font(.system(size: 11))
-                    .foregroundStyle(.tertiary)
+                    .font(QLDesign.Font.mono(11))
+                    .foregroundStyle(QLDesign.Color.labelText)
             }
 
-            if message.role == .user {
-                Spacer()
-            } else {
-                Spacer()
-            }
+            Spacer()
         }
         .padding(.horizontal, 16)
-    }
-}
-
-// MARK: - 辅助扩展
-
-extension RoundedRectangle {
-    init(cornerRadius: CGFloat, corners: [Corner]) {
-        self.init(cornerRadius: cornerRadius, style: .continuous)
-    }
-
-    enum Corner {
-        case topLeft, topRight, bottomLeft, bottomRight
     }
 }

@@ -1,3 +1,4 @@
+// V2.0 — Quiet Luxury 引导页面
 import SwiftUI
 
 struct OnboardingView: View {
@@ -11,7 +12,7 @@ struct OnboardingView: View {
 
     var body: some View {
         ZStack {
-            Color(.systemBackground).ignoresSafeArea()
+            QLDesign.Color.background.ignoresSafeArea()
 
             VStack(spacing: 0) {
                 // 内容区域
@@ -33,7 +34,7 @@ struct OnboardingView: View {
                 HStack(spacing: 8) {
                     ForEach(0..<totalSteps, id: \.self) { index in
                         Circle()
-                            .fill(index == currentStep ? Color(.label) : Color(.systemGray4))
+                            .fill(index == currentStep ? QLDesign.Color.primaryText : QLDesign.Color.border)
                             .frame(width: 8, height: 8)
                     }
                 }
@@ -50,19 +51,20 @@ struct OnboardingView: View {
 
             Image(systemName: "bell.and.waves.left.and.right")
                 .font(.system(size: 60))
-                .foregroundStyle(Color(.label))
+                .foregroundStyle(QLDesign.Color.primaryText)
 
             VStack(spacing: 8) {
                 Text("灵动提醒")
-                    .font(.system(size: 28, weight: .bold))
+                    .font(QLDesign.Font.heading(28))
+                    .foregroundStyle(QLDesign.Color.primaryText)
                 Text("RemindMe")
-                    .font(.system(size: 16))
-                    .foregroundStyle(.secondary)
+                    .font(QLDesign.Font.body(16))
+                    .foregroundStyle(QLDesign.Color.secondaryText)
             }
 
             Text("在恰当的时刻，给你恰好的提醒。\n不多不少，刚刚好。")
-                .font(.system(size: 15))
-                .foregroundStyle(.secondary)
+                .font(QLDesign.Font.body(15))
+                .foregroundStyle(QLDesign.Color.secondaryText)
                 .multilineTextAlignment(.center)
                 .lineSpacing(6)
 
@@ -79,21 +81,22 @@ struct OnboardingView: View {
 
             Image(systemName: "bell.badge.fill")
                 .font(.system(size: 60))
-                .foregroundStyle(notificationGranted ? .green : Color(.label))
+                .foregroundStyle(notificationGranted ? QLDesign.Color.primaryText : QLDesign.Color.primaryText)
 
             Text("开启通知")
-                .font(.system(size: 24, weight: .bold))
+                .font(QLDesign.Font.heading(24))
+                .foregroundStyle(QLDesign.Color.primaryText)
 
             Text("我们需要通知权限来发送提醒。\n你可以在设置中调整频率和安静时段。")
-                .font(.system(size: 15))
-                .foregroundStyle(.secondary)
+                .font(QLDesign.Font.body(15))
+                .foregroundStyle(QLDesign.Color.secondaryText)
                 .multilineTextAlignment(.center)
                 .lineSpacing(6)
 
             if notificationGranted {
                 Label("已开启", systemImage: "checkmark.circle.fill")
-                    .foregroundStyle(.green)
-                    .font(.system(size: 15))
+                    .foregroundStyle(QLDesign.Color.secondaryText)
+                    .font(QLDesign.Font.body(15))
             } else {
                 Button {
                     NotificationService.shared.requestAuthorization { granted in
@@ -101,12 +104,14 @@ struct OnboardingView: View {
                     }
                 } label: {
                     Text("开启通知权限")
-                        .font(.system(size: 15, weight: .medium))
+                        .font(QLDesign.Font.bodyMedium(15))
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(Color(.label))
-                        .foregroundStyle(Color(.systemBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .padding(.vertical, 14)
+                        .background(
+                            RoundedRectangle(cornerRadius: QLDesign.Shape.buttonRadius, style: .continuous)
+                                .fill(SwiftUI.Color.white)
+                        )
+                        .foregroundStyle(SwiftUI.Color.black)
                 }
                 .padding(.horizontal, 60)
             }
@@ -124,21 +129,22 @@ struct OnboardingView: View {
 
             Image(systemName: "calendar.badge.clock")
                 .font(.system(size: 60))
-                .foregroundStyle(calendarGranted ? .green : Color(.label))
+                .foregroundStyle(QLDesign.Color.primaryText)
 
             Text("日历访问")
-                .font(.system(size: 24, weight: .bold))
+                .font(QLDesign.Font.heading(24))
+                .foregroundStyle(QLDesign.Color.primaryText)
 
             Text("可选：访问日历可以结合你的日程\n生成更智能的提醒。")
-                .font(.system(size: 15))
-                .foregroundStyle(.secondary)
+                .font(QLDesign.Font.body(15))
+                .foregroundStyle(QLDesign.Color.secondaryText)
                 .multilineTextAlignment(.center)
                 .lineSpacing(6)
 
             if calendarGranted {
                 Label("已开启", systemImage: "checkmark.circle.fill")
-                    .foregroundStyle(.green)
-                    .font(.system(size: 15))
+                    .foregroundStyle(QLDesign.Color.secondaryText)
+                    .font(QLDesign.Font.body(15))
             } else {
                 Button {
                     CalendarService.shared.requestAuthorization { granted in
@@ -146,20 +152,22 @@ struct OnboardingView: View {
                     }
                 } label: {
                     Text("开启日历权限")
-                        .font(.system(size: 15, weight: .medium))
+                        .font(QLDesign.Font.bodyMedium(15))
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(Color(.label))
-                        .foregroundStyle(Color(.systemBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .padding(.vertical, 14)
+                        .background(
+                            RoundedRectangle(cornerRadius: QLDesign.Shape.buttonRadius, style: .continuous)
+                                .fill(SwiftUI.Color.white)
+                        )
+                        .foregroundStyle(SwiftUI.Color.black)
                 }
                 .padding(.horizontal, 60)
 
                 Button("跳过") {
                     calendarGranted = false
                 }
-                .font(.system(size: 14))
-                .foregroundStyle(.secondary)
+                .font(QLDesign.Font.body(14))
+                .foregroundStyle(QLDesign.Color.secondaryText)
                 .padding(.top, 4)
             }
 
@@ -181,12 +189,14 @@ struct OnboardingView: View {
             }
         } label: {
             Text(currentStep == totalSteps - 1 ? "开始使用" : "下一步")
-                .font(.system(size: 16, weight: .medium))
+                .font(QLDesign.Font.bodyMedium(16))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
-                .background(Color(.label))
-                .foregroundStyle(Color(.systemBackground))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .background(
+                    RoundedRectangle(cornerRadius: QLDesign.Shape.buttonRadius, style: .continuous)
+                        .fill(SwiftUI.Color.white)
+                )
+                .foregroundStyle(SwiftUI.Color.black)
         }
     }
 

@@ -1,3 +1,4 @@
+// V2.0 — Quiet Luxury 设置页面
 import SwiftUI
 
 struct SettingsView: View {
@@ -15,7 +16,7 @@ struct SettingsView: View {
                         Text("每 3 小时").tag(3)
                         Text("每 4 小时").tag(4)
                     }
-                    .tint(.primary)
+                    .tint(.white)
                 } header: {
                     Text("提醒频率")
                 } footer: {
@@ -40,6 +41,46 @@ struct SettingsView: View {
                     Text("数据来源")
                 }
 
+                // MARK: - 每天上限
+                Section {
+                    Picker("每天上限", selection: $viewModel.dailyLimit) {
+                        Text("3 条").tag(3)
+                        Text("5 条").tag(5)
+                        Text("8 条").tag(8)
+                        Text("10 条").tag(10)
+                    }
+                    .tint(.white)
+                } header: {
+                    Text("每天上限")
+                } footer: {
+                    Text("每天最多推送的提醒数量")
+                }
+
+                // MARK: - 推送时段
+                Section {
+                    Toggle("早间 07-09", isOn: $viewModel.timeSlotToggles.morning)
+                    Toggle("上午 09-12", isOn: $viewModel.timeSlotToggles.forenoon)
+                    Toggle("午间 12-14", isOn: $viewModel.timeSlotToggles.midday)
+                    Toggle("下午 14-18", isOn: $viewModel.timeSlotToggles.afternoon)
+                    Toggle("晚间 18-22", isOn: $viewModel.timeSlotToggles.evening)
+                } header: {
+                    Text("推送时段")
+                } footer: {
+                    Text("关闭的时段内不会推送提醒")
+                }
+
+                // MARK: - 音效
+                Section {
+                    Picker("音效", selection: $viewModel.soundType) {
+                        ForEach(UserPreferences.SoundType.allCases, id: \.self) { type in
+                            Text(type.displayName).tag(type)
+                        }
+                    }
+                    .tint(.white)
+                } header: {
+                    Text("音效")
+                }
+
                 // MARK: - 权限管理
                 Section {
                     HStack {
@@ -47,13 +88,14 @@ struct SettingsView: View {
                         Spacer()
                         if viewModel.notificationAuthorized {
                             Label("已开启", systemImage: "checkmark.circle.fill")
-                                .foregroundStyle(.green)
+                                .foregroundStyle(QLDesign.Color.secondaryText)
                                 .font(.system(size: 14))
                         } else {
                             Button("开启") {
                                 viewModel.requestNotificationPermission()
                             }
                             .buttonStyle(.bordered)
+                            .tint(.white)
                         }
                     }
 
@@ -62,17 +104,19 @@ struct SettingsView: View {
                         Spacer()
                         if viewModel.calendarAuthorized {
                             Label("已开启", systemImage: "checkmark.circle.fill")
-                                .foregroundStyle(.green)
+                                .foregroundStyle(QLDesign.Color.secondaryText)
                                 .font(.system(size: 14))
                         } else {
                             Button("开启") {
                                 viewModel.requestCalendarPermission()
                             }
                             .buttonStyle(.bordered)
+                            .tint(.white)
                         }
                     }
                 } header: {
-                    Text("权限管理")                }
+                    Text("权限管理")
+                }
 
                 // MARK: - V1.1 信号值
                 Section {
@@ -82,7 +126,7 @@ struct SettingsView: View {
                         let learner = PreferenceLearner.shared
                         let signal = learner.signalValue
                         Text(String(format: "%.2f", signal))
-                            .foregroundStyle(signal < 0.10 ? .red : signal < 0.30 ? .orange : .secondary)
+                            .foregroundStyle(QLDesign.Color.secondaryText)
                     }
 
                     HStack {
@@ -90,18 +134,18 @@ struct SettingsView: View {
                         Spacer()
                         if PreferenceLearner.shared.isPushPaused {
                             Label("已暂停", systemImage: "pause.circle.fill")
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(QLDesign.Color.secondaryText)
                                 .font(.system(size: 14))
                         } else {
                             Label("正常", systemImage: "checkmark.circle.fill")
-                                .foregroundStyle(.green)
+                                .foregroundStyle(QLDesign.Color.secondaryText)
                                 .font(.system(size: 14))
                         }
                     }
 
                     Text("信号值基于你的反馈自动调整，不需要手动设置")
-                        .font(.system(size: 12))
-                        .foregroundStyle(.secondary)
+                        .font(QLDesign.Font.body(12))
+                        .foregroundStyle(QLDesign.Color.labelText)
                 } header: {
                     Text("智能推送")
                 }
@@ -111,21 +155,22 @@ struct SettingsView: View {
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(SubscriptionManager.shared.currentTier == .pro ? "Pro 会员" : "升级 Pro")
-                                .font(.system(size: 16, weight: .medium))
+                                .font(QLDesign.Font.bodyMedium(16))
                             Text(SubscriptionManager.shared.currentTier == .pro ? "已解锁全部功能" : "解锁健康数据、无限提醒、高级类别")
-                                .font(.system(size: 12))
-                                .foregroundStyle(.secondary)
+                                .font(QLDesign.Font.body(12))
+                                .foregroundStyle(QLDesign.Color.secondaryText)
                         }
                         Spacer()
                         if SubscriptionManager.shared.currentTier == .pro {
                             Image(systemName: "checkmark.seal.fill")
-                                .foregroundStyle(.green)
+                                .foregroundStyle(QLDesign.Color.secondaryText)
                                 .font(.system(size: 20))
                         } else {
                             Button("¥88/年") {
                                 Task { await SubscriptionManager.shared.purchasePro() }
                             }
                             .buttonStyle(.bordered)
+                            .tint(.white)
                         }
                     }
                 } header: {
@@ -138,21 +183,32 @@ struct SettingsView: View {
                         Text("版本")
                         Spacer()
                         Text("v\(viewModel.appVersion)")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(QLDesign.Color.secondaryText)
                     }
                     HStack {
                         Text("灵动提醒")
                         Spacer()
                         Text("RemindMe")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(QLDesign.Color.secondaryText)
+                    }
+                    Link(destination: URL(string: "https://remindme.app/privacy")!) {
+                        HStack {
+                            Text("隐私政策")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundStyle(QLDesign.Color.secondaryText)
+                        }
                     }
                 } header: {
                     Text("关于")
                 }
             }
-            .tint(.primary)
+            .scrollContentBackground(.hidden)
+            .tint(.white)
             .navigationTitle("设置")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarColorScheme(.dark, for: .navigationBar)
             .onDisappear {
                 viewModel.save()
             }

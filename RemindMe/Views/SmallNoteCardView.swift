@@ -8,30 +8,29 @@ struct SmallNoteCardView: View {
     var body: some View {
         Button(action: onTap) {
             VStack(alignment: .leading, spacing: 8) {
-                // 顶部小装饰线
+                // 顶部装饰线
                 HStack {
                     RoundedRectangle(cornerRadius: 1.5)
-                        .fill(Color(.systemGray4))
+                        .fill(QLDesign.Color.border)
                         .frame(width: 20, height: 3)
                     Spacer()
                     Text(item.timestamp, style: .time)
-                        .font(.system(size: 11, weight: .medium, design: .monospaced))
-                        .foregroundStyle(.secondary)
+                        .font(QLDesign.Font.mono(11))
+                        .foregroundStyle(QLDesign.Color.secondaryText)
                 }
 
                 // 文案 — 手写感
                 Text(item.text)
-                    .font(.system(size: 15, weight: .regular, design: .serif))
-                    .italic()
-                    .foregroundStyle(item.isRead ? .secondary : Color(.label))
+                    .font(QLDesign.Font.serif(15).italic())
+                    .foregroundStyle(item.isRead ? QLDesign.Color.secondaryText : QLDesign.Color.primaryText)
                     .lineLimit(4)
                     .multilineTextAlignment(.leading)
 
                 // 底部标签
                 HStack {
                     Text("小纸条")
-                        .font(.system(size: 11))
-                        .foregroundStyle(.secondary)
+                        .font(QLDesign.Font.label(11))
+                        .foregroundStyle(QLDesign.Color.labelText)
                     Spacer()
                     if item.feedbackType != "none" {
                         Text(feedbackEmoji(item.feedbackType))
@@ -41,19 +40,12 @@ struct SmallNoteCardView: View {
             }
             .padding(16)
             .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(item.isRead ? Color(.systemGray6) : Color(.systemBackground))
-                    .shadow(
-                        color: Color(.systemGray4).opacity(0.5),
-                        radius: 1,
-                        x: 1,
-                        y: 1
-                    )
+                RoundedRectangle(cornerRadius: QLDesign.Shape.cardRadius, style: .continuous)
+                    .fill(QLDesign.Color.surface)
             )
             .overlay(
-                // 模拟纸张纹理的细边框
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color(.systemGray4), style: StrokeStyle(lineWidth: 0.5, dash: [4, 2]))
+                RoundedRectangle(cornerRadius: QLDesign.Shape.cardRadius, style: .continuous)
+                    .stroke(QLDesign.Color.border, lineWidth: 0.5)
             )
         }
         .buttonStyle(.plain)
@@ -61,7 +53,7 @@ struct SmallNoteCardView: View {
             Button {
                 onFeedback("positive")
             } label: {
-                Label("温暖 ❤️", systemImage: "heart")
+                Label("温暖", systemImage: "heart")
             }
             Button {
                 onFeedback("neutral")

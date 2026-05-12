@@ -53,6 +53,12 @@
 		<string>processing</string>
 	</array>
 
+	<!-- 后台任务允许的标识符 -->
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.hanhang.remindme.rotation</string>
+	</array>
+
 	<!-- 支持 iPhone 灵动岛 -->
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

@@ -33,7 +33,7 @@ final class LiveActivityService: ObservableObject {
         }
     }
 
-    func updateLiveActivity(reminderText: String) {
+    func updateLiveActivity(reminderText: String) async {
         guard let activity = currentActivity else {
             startLiveActivity(reminderText: reminderText)
             return
@@ -44,11 +44,9 @@ final class LiveActivityService: ObservableObject {
             timestamp: Date()
         )
 
-        Task {
-            await activity.update(
-                ActivityContent(state: state, staleDate: nil)
-            )
-        }
+        await activity.update(
+            ActivityContent(state: state, staleDate: nil)
+        )
     }
 
     func endLiveActivity() {
